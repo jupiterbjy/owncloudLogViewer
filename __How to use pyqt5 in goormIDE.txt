@@ -1,0 +1,24 @@
+원본 답장에서 주는 스크립트는
+
+apt-get update && apt-get -y install python3-pyqt5 dbus autotools-dev automake libtool m4 && \
+pip install PySide2 && \
+dbus-uuidgen > /var/lib/dbus/machine-id && \
+git clone https://github.com/juj/emscripten-freetype.git && \
+cd emscripten-freetype && ./autogen.sh && ./configure && make && \
+mv ./objs/.libs/libfreetype.* /usr/lib/x86_64-linux-gnu/ && \
+cd .. && rm -rf emscripten-freetype
+
+이지만 저 freetype이 오래되어 nginx가 오류를 내고 구동에 실패합니다.
+이하의 3줄만 입력하면 정상 작동됩니다.
+
+apt-get update && apt-get -y install python3-pyqt5 dbus autotools-dev automake libtool m4 && \
+pip install PySide2 && \
+dbus-uuidgen > /var/lib/dbus/machine-id
+
+추가로, alias가 pip='pip2', python='python2'이기 때문에
+ '기본설정' > '터미널' > '프로필'의 스크립트 맨 밑에
+ 
+ alias pip='pip3'
+ alias python='python3'
+ 
+ 를 추가해주는걸 추천드립니다. 안그럼 켜질때마다 파이썬 2가 기본 alias로 설정됩니다.
