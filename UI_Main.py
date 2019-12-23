@@ -38,7 +38,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def fileButtonClicked(self):
         f = QFileDialog.getOpenFileName(self)
         self.writeConsole(f[0])
-        fileReader
+        self.out = fileReader.lineProcess(fileReader.fileRead)
+        for i in self.out:
+            self.writeConsole(i)
         
 def main():
     
