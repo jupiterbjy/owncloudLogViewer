@@ -22,6 +22,7 @@ class Ui_MainWindow(object):
         self.oc_treeWidget.setGeometry(QtCore.QRect(10, 10, 791, 261))
         self.oc_treeWidget.setAcceptDrops(True)
         self.oc_treeWidget.setAutoFillBackground(False)
+        self.oc_treeWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.oc_treeWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.oc_treeWidget.setAlternatingRowColors(True)
         self.oc_treeWidget.setAnimated(False)
@@ -32,6 +33,7 @@ class Ui_MainWindow(object):
         item_0 = QtWidgets.QTreeWidgetItem(self.oc_treeWidget)
         self.item_textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
         self.item_textBrowser.setGeometry(QtCore.QRect(10, 280, 791, 181))
+        self.item_textBrowser.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.item_textBrowser.setObjectName("item_textBrowser")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -45,7 +47,15 @@ class Ui_MainWindow(object):
         MainWindow.setMenuBar(self.menubar)
         self.actionFile = QtWidgets.QAction(MainWindow)
         self.actionFile.setObjectName("actionFile")
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionSyntex_Highlighting = QtWidgets.QAction(MainWindow)
+        self.actionSyntex_Highlighting.setCheckable(True)
+        self.actionSyntex_Highlighting.setChecked(True)
+        self.actionSyntex_Highlighting.setObjectName("actionSyntex_Highlighting")
         self.menuMenu.addAction(self.actionFile)
+        self.menuMenu.addAction(self.actionSyntex_Highlighting)
+        self.menuMenu.addAction(self.actionExit)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -53,7 +63,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Owncloud Log Viewer - Testing"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Owncloud Log Viewer - Testing Builds"))
         self.oc_treeWidget.setSortingEnabled(True)
         self.oc_treeWidget.headerItem().setText(0, _translate("MainWindow", "Entry"))
         self.oc_treeWidget.headerItem().setText(1, _translate("MainWindow", "Time"))
@@ -76,6 +86,8 @@ class Ui_MainWindow(object):
         self.oc_treeWidget.setSortingEnabled(__sortingEnabled)
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionFile.setText(_translate("MainWindow", "Open"))
+        self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionSyntex_Highlighting.setText(_translate("MainWindow", "Syn. Highlight"))
 
 
 if __name__ == "__main__":
