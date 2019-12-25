@@ -3,3 +3,6 @@ Not smart enough to use regex single-handedly. Therefore this dummy's way exists
 
 
 Will Take a lot of time as I'm really short on time, so this might stay empty for few days from now.
+
+Current state: 
+![Imgur](https://i.imgur.com/6xz6NpN.png)
