@@ -9,6 +9,7 @@ import fileReader
 import OneFilePathDetector as OneFile
 
 # --- References --------------------------------------------------------
+# https://stackoverflow.com/questions/24287111/changing-a-single-strings-color-within-a-qtextedit
 # https://github.com/RavenKyu/OpenTutorials_PyQt/
 # https://blog.asimation.com/37/
 # https://stackoverflow.com/questions/14691525/set-column-width-for-qtreewidget
@@ -54,6 +55,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         if f[0] != '':
             out = fileReader.lineProcess(f[0])
+            
+            self.oc_treeWidget.invisibleRootItem().takeChildren()
         
             for i in out:
                 item = self.items(i)

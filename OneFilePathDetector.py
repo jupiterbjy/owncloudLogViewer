@@ -34,3 +34,6 @@ def GetExecutablePath():
 
     from sys import executable
     base_dir = executable
+
+def setwdir():
+    os.chdir(sys.path[0])

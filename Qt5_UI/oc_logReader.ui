@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>809</width>
-    <height>500</height>
+    <width>833</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="acceptDrops">
@@ -20,125 +20,113 @@
    <number>-1</number>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="oc_treeWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>791</width>
-      <height>261</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>true</bool>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOn</enum>
-    </property>
-    <property name="horizontalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOff</enum>
-    </property>
-    <property name="alternatingRowColors">
-     <bool>true</bool>
-    </property>
-    <property name="sortingEnabled">
-     <bool>true</bool>
-    </property>
-    <property name="animated">
-     <bool>false</bool>
-    </property>
-    <property name="allColumnsShowFocus">
-     <bool>false</bool>
-    </property>
-    <property name="headerHidden">
-     <bool>false</bool>
-    </property>
-    <property name="expandsOnDoubleClick">
-     <bool>true</bool>
-    </property>
-    <column>
-     <property name="text">
-      <string>Entry</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Time</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string extracomment="logLevel">Level</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>IPv4</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>User</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>App</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Method</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Message</string>
-     </property>
-    </column>
-    <item>
-     <property name="text">
-      <string>1</string>
-     </property>
-     <property name="text">
-      <string>2</string>
-     </property>
-     <property name="text">
-      <string>3</string>
-     </property>
-     <property name="text">
-      <string>4</string>
-     </property>
-     <property name="text">
-      <string>5</string>
-     </property>
-     <property name="text">
-      <string>6</string>
-     </property>
-     <property name="text">
-      <string>7</string>
-     </property>
-     <property name="text">
-      <string>8</string>
-     </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTreeWidget" name="oc_treeWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>1</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>false</bool>
+       </property>
+       <property name="allColumnsShowFocus">
+        <bool>false</bool>
+       </property>
+       <property name="headerHidden">
+        <bool>false</bool>
+       </property>
+       <property name="expandsOnDoubleClick">
+        <bool>true</bool>
+       </property>
+       <column>
+        <property name="text">
+         <string>Entry</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Time</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string extracomment="logLevel">Level</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>IPv4</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>User</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>App</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Method</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Message</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QTextBrowser" name="item_textBrowser">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOn</enum>
+       </property>
+      </widget>
+     </widget>
     </item>
-   </widget>
-   <widget class="QTextBrowser" name="item_textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>280</y>
-      <width>791</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAlwaysOn</enum>
-    </property>
-   </widget>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -146,7 +134,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>809</width>
+     <width>833</width>
      <height>21</height>
     </rect>
    </property>
@@ -155,8 +143,8 @@
      <string>Menu</string>
     </property>
     <addaction name="actionFile"/>
-    <addaction name="actionSyntex_Highlighting"/>
     <addaction name="actionExit"/>
+    <addaction name="actionSyntex_Highlighting"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
