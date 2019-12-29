@@ -1,10 +1,10 @@
 import sys
-import re
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 
 from oc_logReader import Ui_MainWindow
+from formatTools import *
 import fileReader
 import OneFilePathDetector as OneFile
 
@@ -14,22 +14,11 @@ import OneFilePathDetector as OneFile
 # https://github.com/RavenKyu/OpenTutorials_PyQt/
 # https://blog.asimation.com/37/
 # https://stackoverflow.com/questions/14691525/set-column-width-for-qtreewidget
+# https://regexr.com/
 
 # TODO: find way to apply conditional formatting on columns
 # TODO: find location of core dump in goormIDE
 # TODO: create exception in case wrong file was thrown into program.
-
-
-def Qtcolorize(text, size='8', weight='600', color='#000000'):
-    Start = '<span style=\" '
-    Font = f'font-size:{size}pt; '
-    FontWeight = f'font-weight:{weight}; '
-    Color = f'color:{color}; '
-    End =  '\" >'
-    txt = str(text)
-    spanComplete = '</span>'
-
-    return Start + Font + FontWeight + Color + End + txt + spanComplete
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -81,15 +70,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         # only have one item but can't call by index 0. using iteration
         for item in currentItem:
-            colour = '#000000'
-            lvl = item.text(2)
-            txt = re.sub('/n#', '\n#', item.text(7))
+            lvl = lvlColorizer(item.text(2))
+            time = item.text(1)
+            entry = item.text(0) + ' / ' + str(fileReader.lineCounts)
+            msg = messageFormating(item.text(7))
             
-            if int(lvl) > 2:
-                colour = '#ff0000'
-            
-            self.lvl_textEdit.setText(Qtcolorize(lvl, color=colour), clear=True)
-            self.writeConsole(txt, clear=True)
+            self.lvl_textEdit.setText(lvl)
+            self.entry_textEdit.setText(entry)
+            self.writeConsole(msg, clear=True)
 
 
 def main():

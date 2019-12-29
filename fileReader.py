@@ -8,9 +8,12 @@ import sys
 
 
 def fileLineCounter(file):
+    global lineCounts
+    
     for idx, l in enumerate(file):
         pass
-
+    
+    lineCounts = idx
     return idx
     
     
@@ -86,12 +89,11 @@ def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
 
                 if re.match('message', txt):
                     # Silly way of using regex, but more readable I guess.
+                    
                     msg = re.sub('message', '', txt)
                     msg = msg.replace(':', '', 1)
                     msg = msg.replace('\\', '/')
                     msg = re.sub('/+', '/', msg)
-                    # msg = re.sub('/n#', '\n#', msg)
-                    # This cause TreeItem extend to multiple lines
                     
                     item.append(msg)
                     
@@ -129,4 +131,4 @@ if __name__ == '__main__':
 
                 print('*' + i + '*')
 
-    
+global lineCounts
