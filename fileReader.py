@@ -111,11 +111,6 @@ def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
                 item[3] = '--'
             if item[5] == 'no app in context':
                 item[5] = '--'
-                
-            """
-            item[2] = Qtcolorize(item[2], color='#ff0000')
-            item[7] = Qtcolorize(item[7], color='#ff0000')
-            """
             
             output.append(item)
 
@@ -124,7 +119,9 @@ def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
     
 # Debugging function
 if __name__ == '__main__':
+    
     output = lineProcess('./testcase/owncloud.log', limit=30)
+    
     if not isinstance(output, int):
         for txt in output:
             for i in txt:

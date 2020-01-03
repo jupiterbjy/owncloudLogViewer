@@ -11,16 +11,24 @@ def rgbToHex(r=0, g=0, b=0):
     return '#' + ''.join(out)
 
 
-def Qtcolorize(text, color='#000000'):
+def Qtcolorize(text, color='#000000', size=0, weight=0):
     Start = '<span style=\" '
-    # Font = f'font-size:{size}pt; '
-    # FontWeight = f'font-weight:{weight}; '
+    Font = f'font-size:{size}pt; '
+    FontWeight = f'font-weight:{weight}; '
     Color = f'color:{color}; '
     End =  '\" >'
     txt = str(text)
     spanComplete = '</span>'
+    
+    out = [Start, Font, FontWeight, Color, End, txt, spanComplete]
+    
+    if not size:
+        out.remove(Font)
+    
+    if not weight:
+        out.remove(FontWeight)
 
-    return Start + Color + End + txt + spanComplete
+    return ''.join(out)
 
 
 def lvlColorizer(source):
@@ -36,21 +44,28 @@ def lvlColorizer(source):
     return Qtcolorize(source, color=lvlArray[n])
 
 
-def messageFormating(source):
-    # what a mess, but can't do Qtcolorize('#\S*') at all!
+def messageFormating(source, color=True):
     import re
     
-    tmp = Qtcolorize('RRRR').split('RRRR')
+    matching = re.findall('#\S*', source)
+    rowColor = rgbToHex(200)
+    output = source[::]
     
-    rowColor = rgbToHex(128)
-    output = source.replace('/n#', '\n#')
-    #output = re.sub('#\S*', '@@#``', output)
+    if color:
+        for case in matching:
+            output = output.replace(case, Qtcolorize(case, rowColor), 1)
     
-    #output = output.replace('@@', tmp[0])
-    #output = output.replace('``', tmp[1])
-    #output = output.replace('#', Qtcolorize('#'))
+        output = output.replace('/n<', '<br/><')
+        
+    else:
+        output = output.replace('/n#', '<br/>#')
+        
+    output = output.replace('#0', '<br/>#0')
     
     return output
+
+def ErrorOut(source):
+    return Qtcolorize(source, color=rgbToHex(200))
 
 
 __all__ = member_loader.ListFunction(__name__)
