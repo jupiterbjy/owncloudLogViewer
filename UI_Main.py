@@ -32,10 +32,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         header.setSectionResizeMode(7, QHeaderView.Stretch)
         
         self.oc_treeWidget.sortItems(0, Qt.AscendingOrder)
+        
         self.actionFile.triggered.connect(self.fileButtonClicked)
         self.actionSyntex_Highlighting.toggled.connect(self.highlightToggle)
         self.oc_treeWidget.currentItemChanged.connect(self.treeItemClicked)
         self.oc_treeWidget.itemClicked.connect(self.treeItemClicked)
+        
+        self.statusbar.showMessage('Idle')
+        
+    def fileNameExtract(self, location):
+        return (location.split('/'))[-1]
 
     def writeConsole(self, text, clear=False):
         if clear:
@@ -53,22 +59,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return item
         
         f = QFileDialog.getOpenFileName(self)
-        self.writeConsole(f[0])
+        # self.writeConsole(f[0])
         
         if f[0] != '':
+            fileName = self.fileNameExtract(f[0])
             try:
                 out = fileReader.lineProcess(f[0])
             
             except Exception as exp:
                 self.writeConsole(exp)
-                self.writeConsole(ErrorOut('\nFile Open Failed!\n'))
+                self.writeConsole(ErrorOut(f'Can\'t open file {fileName}!\n'))
                 self.oc_treeWidget.invisibleRootItem().takeChildren()
             
             else:
+                self.statusbar.showMessage(f'File {fileName} loaded')
                 for i in out:
                     item = items(i)
                     self.oc_treeWidget.invisibleRootItem().addChild(item)
                 
+    def msgUpdate(self, msg):
+        highlight = self.actionSyntex_Highlighting.isChecked()
+        self.writeConsole(messageFormating(msg, highlight), clear=True)
+        
     def treeItemClicked(self):
         
         currentItem = self.oc_treeWidget.selectedItems()
@@ -82,10 +94,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.lvl_textEdit.setText(lvl)
             self.entry_textEdit.setText(entry)
             self.msgUpdate(item.text(7))
-            
-    def msgUpdate(self, msg):
-        highlight = self.actionSyntex_Highlighting.isChecked()
-        self.writeConsole(messageFormating(msg, highlight), clear=True)
             
     def highlightToggle(self):
         
