@@ -9,4 +9,4 @@ Will provide linux AMD64 builds only for now. Since I have no access to CMD here
 TL;DR a repository with ton of re.sub spamming, with least understanding of python possible.
 
 Current state (log from owncloud 10.3.2): 
-![Imgur](https://i.imgur.com/6xz6NpN.png)
+![Imgur](https://imgur.com/2CPE4KJ.jpg)

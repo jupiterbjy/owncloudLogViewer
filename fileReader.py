@@ -1,6 +1,4 @@
-import os
 import re
-import sys
 
 # TODO: use check freeze state from python_img_macro
 # TODO: create python script to grep all TODO in source codes.
@@ -45,7 +43,7 @@ def openWrapper(loc, mode='rt'):
 def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
     # Can I modularize this mess? not sure..
     # TODO: add color 2 hex function
-    
+
     def swap(arr, idx1, idx2):
         arr[idx1], arr[idx2] = arr[idx2], arr[idx1]
         
