@@ -45,24 +45,40 @@ def lvlColorizer(source):
 
 
 def messageFormating(source, color=True):
+    '''
+    Formot Owncloud Error Messages for better readability.
+    Due to lack of experience & time on regex, things became messy.
+    '''
+
     import re
-    
-    matching = re.findall('#\S*', source)
+
+    source = source.replace(':', '', 1)
+    source = source.replace('\\', '/')
+    source = re.sub('/+', '/', source)
+
+    matching = re.findall('#\d*\s', source)
     rowColor = rgbToHex(200)
     output = source[::]
-    
+
     if color:
         for case in matching:
             output = output.replace(case, Qtcolorize(case, rowColor), 1)
-    
+
         output = output.replace('/n<', '<br/><')
-        
+
     else:
         output = output.replace('/n#', '<br/>#')
-        
+
     output = output.replace('#0', '<br/>#0')
+    # output = re.sub('#\d*}', '', output)
+    output = re.sub('(}+(\n)*)+$', '', output)
+    output = re.sub('{/Exception[\s\S]*/Trace/:/', '<br/> Trace :', output)
+
+    # There should me more Pythonic way, not reassigning variable over and over.
+    # TODO: Improve Formatting section.
     
     return output
+
 
 def ErrorOut(source):
     return Qtcolorize(source, color=rgbToHex(200))

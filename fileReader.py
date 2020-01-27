@@ -1,9 +1,5 @@
 import re
 
-# TODO: use check freeze state from python_img_macro
-# TODO: create python script to grep all TODO in source codes.
-# TODO: subitem by y-m-d => h-m-s order
-
 
 def fileLineCounter(file):
     global lineCounts
@@ -89,9 +85,9 @@ def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
                     # Silly way of using regex, but more readable I guess.
                     
                     msg = re.sub('message', '', txt)
-                    msg = msg.replace(':', '', 1)
-                    msg = msg.replace('\\', '/')
-                    msg = re.sub('/+', '/', msg)
+                    # msg = msg.replace(':', '', 1)
+                    # msg = msg.replace('\\', '/')
+                    # msg = re.sub('/+', '/', msg)
                     
                     item.append(msg)
                     
@@ -104,6 +100,12 @@ def lineProcess(location, limit=-1, blacklist=['.*reqId.*', '.*url.*']):
             
             # Post process
             swap(item, 1, 2)
+
+            # Time format
+            # Removing Timezone for now
+            # TODO: add Timezone indicator
+            source = (item[1].split('+'))[0]
+            item[1] = ' '.join(source.split('T'))
             
             if item[3]=='':
                 item[3] = '--'

@@ -16,8 +16,9 @@ import OneFilePathDetector as OneFile
 # https://stackoverflow.com/questions/14691525/set-column-width-for-qtreewidget
 # https://regexr.com/
 
-# TODO: find location of core dump in goormIDE
-# TODO: create exception in case wrong file was thrown into program.
+# TODO: create 'better' exception in case wrong file was thrown into program.
+# TODO: create python script to grep all TODO in source codes.
+# TODO: subitem by y-m-d => h-m-s order
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -34,11 +35,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.oc_treeWidget.sortItems(0, Qt.AscendingOrder)
         
         self.actionFile.triggered.connect(self.fileButtonClicked)
-        self.actionSyntex_Highlighting.toggled.connect(self.highlightToggle)
+        # self.actionSyntex_Highlighting.toggled.connect(self.highlightToggle)
         self.oc_treeWidget.currentItemChanged.connect(self.treeItemClicked)
         self.oc_treeWidget.itemClicked.connect(self.treeItemClicked)
+        self.raw_checkBox.toggled.connect(self.highlightToggle)
         
         self.statusbar.showMessage('Idle')
+        # self.statusbar.showMessage(str(self.dateTimeEdit.dateTime()))
         
     def fileNameExtract(self, location):
         return (location.split('/'))[-1]
@@ -58,7 +61,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             return item
         
-        f = QFileDialog.getOpenFileName(self)
+        f = QFileDialog.getOpenFileName()
         # self.writeConsole(f[0])
         
         if f[0] != '':
@@ -76,10 +79,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for i in out:
                     item = items(i)
                     self.oc_treeWidget.invisibleRootItem().addChild(item)
-                
+
     def msgUpdate(self, msg):
-        highlight = self.actionSyntex_Highlighting.isChecked()
-        self.writeConsole(messageFormating(msg, highlight), clear=True)
+        if self.raw_checkBox.isChecked():
+            self.item_textEdit.setLineWrapMode(1)
+            self.writeConsole(msg, clear=True)
+        else:
+            self.item_textEdit.setLineWrapMode(0)
+            self.writeConsole(messageFormating(msg), clear=True)
         
     def treeItemClicked(self):
         
@@ -87,13 +94,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         # only have one item but can't call by index 0. using iteration
         for item in currentItem:
+
+            self.statusbar.showMessage(f'Showing row {item.text(0)}')
+
             lvl = lvlColorizer(item.text(2))
-            time = item.text(1)
+            # time = item.text(1)
             entry = item.text(0) + ' / ' + str(fileReader.lineCounts)
             
             self.lvl_textEdit.setText(lvl)
             self.entry_textEdit.setText(entry)
             self.msgUpdate(item.text(7))
+
+            self.dateTimeEdit.setDisplayFormat('yyyy-MM-dd hh:mm:ss')
+            tmp = self.dateTimeEdit.dateTimeFromText(item.text(1))
+            self.dateTimeEdit.setDateTime(tmp)
             
     def highlightToggle(self):
         

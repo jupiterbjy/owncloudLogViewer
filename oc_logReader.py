@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'oc_logReader.ui'
+# Form implementation generated from reading ui file 'Qt5_UI/oc_logReader.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(802, 509)
+        MainWindow.resize(800, 509)
         MainWindow.setAcceptDrops(True)
         MainWindow.setToolTipDuration(-1)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -79,6 +79,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.entry_textEdit.sizePolicy().hasHeightForWidth())
         self.entry_textEdit.setSizePolicy(sizePolicy)
         self.entry_textEdit.setMaximumSize(QtCore.QSize(16777215, 24))
+        self.entry_textEdit.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.entry_textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.entry_textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.entry_textEdit.setReadOnly(True)
@@ -95,6 +96,9 @@ class Ui_MainWindow(object):
         self.time_label = QtWidgets.QLabel(self.midSectionframe)
         self.time_label.setGeometry(QtCore.QRect(270, 0, 41, 21))
         self.time_label.setObjectName("time_label")
+        self.raw_checkBox = QtWidgets.QCheckBox(self.midSectionframe)
+        self.raw_checkBox.setGeometry(QtCore.QRect(470, 2, 51, 21))
+        self.raw_checkBox.setObjectName("raw_checkBox")
         self.item_textEdit = QtWidgets.QTextEdit(self.splitter)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -105,12 +109,13 @@ class Ui_MainWindow(object):
         self.item_textEdit.setLineWidth(1)
         self.item_textEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.item_textEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.item_textEdit.setLineWrapMode(QtWidgets.QTextEdit.NoWrap)
         self.item_textEdit.setReadOnly(True)
         self.item_textEdit.setObjectName("item_textEdit")
         self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 802, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
@@ -132,7 +137,6 @@ class Ui_MainWindow(object):
         self.actionSyntex_Highlighting.setObjectName("actionSyntex_Highlighting")
         self.menuMenu.addAction(self.actionFile)
         self.menuMenu.addAction(self.actionExit)
-        self.menuMenu.addAction(self.actionSyntex_Highlighting)
         self.menubar.addAction(self.menuMenu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -153,6 +157,7 @@ class Ui_MainWindow(object):
         self.level_label.setText(_translate("MainWindow", "Level"))
         self.entry_label.setText(_translate("MainWindow", "Entry"))
         self.time_label.setText(_translate("MainWindow", "Time"))
+        self.raw_checkBox.setText(_translate("MainWindow", "Raw"))
         self.menuMenu.setTitle(_translate("MainWindow", "Menu"))
         self.actionFile.setText(_translate("MainWindow", "Open"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))

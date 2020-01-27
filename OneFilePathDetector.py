@@ -16,10 +16,9 @@ def DetectFrozen():
     if getattr(sys, 'frozen', False):
         # One-file
         SetWorkingDirectory(GetExecutablePath())
-        return 1
-
+        return True
     else:
-        return 0
+        return False
 
 
 def SetWorkingDirectory(exe_dir):
@@ -31,9 +30,6 @@ def SetWorkingDirectory(exe_dir):
 
 def GetExecutablePath():
     # https://github.com/pyinstaller/pyinstaller/issues/1726#issuecomment-166146333
-
     from sys import executable
-    base_dir = executable
+    return executable
 
-def setwdir():
-    os.chdir(sys.path[0])
