@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Qt5_UI/oc_logReader.ui'
+# Form implementation generated from reading ui file 'oc_logReader.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 509)
+        MainWindow.resize(812, 556)
         MainWindow.setAcceptDrops(True)
         MainWindow.setToolTipDuration(-1)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -33,12 +33,14 @@ class Ui_MainWindow(object):
         self.oc_treeWidget.setAutoFillBackground(False)
         self.oc_treeWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.oc_treeWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.oc_treeWidget.setDragEnabled(False)
         self.oc_treeWidget.setAlternatingRowColors(True)
         self.oc_treeWidget.setAnimated(False)
         self.oc_treeWidget.setAllColumnsShowFocus(False)
         self.oc_treeWidget.setHeaderHidden(False)
         self.oc_treeWidget.setExpandsOnDoubleClick(True)
         self.oc_treeWidget.setObjectName("oc_treeWidget")
+        self.oc_treeWidget.header().setCascadingSectionResizes(True)
         self.midSectionframe = QtWidgets.QFrame(self.splitter)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -115,7 +117,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.splitter, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 812, 21))
         self.menubar.setObjectName("menubar")
         self.menuMenu = QtWidgets.QMenu(self.menubar)
         self.menuMenu.setObjectName("menuMenu")
@@ -162,13 +164,3 @@ class Ui_MainWindow(object):
         self.actionFile.setText(_translate("MainWindow", "Open"))
         self.actionExit.setText(_translate("MainWindow", "Exit"))
         self.actionSyntex_Highlighting.setText(_translate("MainWindow", "Syn. Highlight"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

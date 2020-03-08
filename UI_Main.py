@@ -35,10 +35,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.oc_treeWidget.sortItems(0, Qt.AscendingOrder)
         
         self.actionFile.triggered.connect(self.fileButtonClicked)
-        # self.actionSyntex_Highlighting.toggled.connect(self.highlightToggle)
         self.oc_treeWidget.currentItemChanged.connect(self.treeItemClicked)
         self.oc_treeWidget.itemClicked.connect(self.treeItemClicked)
         self.raw_checkBox.toggled.connect(self.highlightToggle)
+        self.actionExit.triggered.connect(sys.exit)
         
         self.statusbar.showMessage('Idle')
         # self.statusbar.showMessage(str(self.dateTimeEdit.dateTime()))
