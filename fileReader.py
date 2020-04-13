@@ -1,3 +1,4 @@
+from PySide2.QtCore import QCoreApplication, QEventLoop
 import re
 
 
@@ -37,8 +38,6 @@ def openWrapper(loc, mode='rt'):
     
 
 def lineProcess(location, limit=-1, blacklist=None):
-    # Can I modularize this mess? not sure..
-    # TODO: add color 2 hex function
 
     if blacklist is None:
         blacklist = ['.*reqId.*', '.*url.*']
@@ -75,7 +74,7 @@ def lineProcess(location, limit=-1, blacklist=None):
             item = [index]
 
             for idx, txt_ in enumerate(text_arr):
-                
+
                 # checking if txt contains blacklists
                 # ----------------------------------
                 remove = False
@@ -108,6 +107,8 @@ def lineProcess(location, limit=-1, blacklist=None):
                     item.append(str(txt_))
             
             # Post process
+
+            QCoreApplication.processEvents(QEventLoop.ExcludeUserInputEvents)
             print(text, line)
             swap(item, 1, 2)
 

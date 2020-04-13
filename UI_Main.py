@@ -1,9 +1,8 @@
 import sys
-from PyQt5 import uic
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PySide2.QtWidgets import *
+from PySide2.QtCore import Qt
 
-from oc_logReader import Ui_MainWindow
+from qtUI.oc_logReader import Ui_MainWindow
 from formatTools import *
 import fileReader
 import OneFilePathDetector as OneFile
@@ -22,97 +21,97 @@ import OneFilePathDetector as OneFile
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, *args, obj=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        
+
         # Setting Coloum width
         header = self.oc_treeWidget.header()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         header.setStretchLastSection(False)
         header.setSectionResizeMode(7, QHeaderView.Stretch)
-        
+
         self.oc_treeWidget.sortItems(0, Qt.AscendingOrder)
-        
+
         self.actionFile.triggered.connect(self.fileButtonClicked)
         self.oc_treeWidget.currentItemChanged.connect(self.treeItemClicked)
         self.oc_treeWidget.itemClicked.connect(self.treeItemClicked)
-        self.raw_checkBox.toggled.connect(self.highlightToggle)
+        self.raw_checkBox.toggled.connect(self.highLightToggle)
         self.actionExit.triggered.connect(sys.exit)
-        
-        self.statusbar.showMessage('Idle')
-        # self.statusbar.showMessage(str(self.dateTimeEdit.dateTime()))
-        
-    def fileNameExtract(self, location):
-        return (location.split('/'))[-1]
+
+        self.statusbar.showMessage("Idle")
+
+    @staticmethod
+    def fileNameExtract(location):
+        return (location.split("/"))[-1]
 
     def writeConsole(self, text, clear=False):
         if clear:
             self.item_textEdit.setText(str(text))
         else:
             self.item_textEdit.append(str(text))
-        
+
     def fileButtonClicked(self):
-        def items(itemList):
-            item = QTreeWidgetItem()
+        def items(item_list):
+            item_ = QTreeWidgetItem()
 
-            for idx, i in enumerate(itemList):
-                item.setText(idx, i)
+            for idx, i_ in enumerate(item_list):
+                item_.setText(idx, i_)
 
-            return item
-        
+            return item_
+
         f = QFileDialog.getOpenFileName()
         # self.writeConsole(f[0])
-        
-        if f[0] != '':
-            fileName = self.fileNameExtract(f[0])
+
+        if f[0] != "":
+            file_name = self.fileNameExtract(f[0])
             try:
                 out = fileReader.lineProcess(f[0])
-            
+
             except Exception as exp:
                 self.writeConsole(exp)
-                self.writeConsole(ErrorOut(f'Can\'t open file {fileName}!\n'))
+                self.writeConsole(ErrorOut(f"Can't open file {file_name}!\n"))
                 self.oc_treeWidget.invisibleRootItem().takeChildren()
-            
+
             else:
-                self.statusbar.showMessage(f'File {fileName} loaded')
+                self.statusbar.showMessage(f"File {file_name} loaded")
                 for i in out:
                     item = items(i)
                     self.oc_treeWidget.invisibleRootItem().addChild(item)
 
     def msgUpdate(self, msg):
         if self.raw_checkBox.isChecked():
-            self.item_textEdit.setLineWrapMode(1)
+            self.item_textEdit.setLineWrapMode(QTextEdit.LineWrapMode.WidgetWidth)
             self.writeConsole(msg, clear=True)
         else:
-            self.item_textEdit.setLineWrapMode(0)
+            self.item_textEdit.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
             self.writeConsole(messageFormating(msg), clear=True)
-        
-    def treeItemClicked(self):
-        
-        currentItem = self.oc_treeWidget.selectedItems()
-        
-        # only have one item but can't call by index 0. using iteration
-        for item in currentItem:
 
-            self.statusbar.showMessage(f'Showing row {item.text(0)}')
+    def treeItemClicked(self):
+
+        current_item = self.oc_treeWidget.selectedItems()
+
+        # only have one item but can't call by index 0. using iteration
+        for item in current_item:
+
+            self.statusbar.showMessage(f"Showing row {item.text(0)}")
 
             lvl = lvlColorizer(item.text(2))
             # time = item.text(1)
-            entry = item.text(0) + ' / ' + str(fileReader.lineCounts)
-            
+            entry = item.text(0) + " / " + str(fileReader.lineCounts)
+
             self.lvl_textEdit.setText(lvl)
             self.entry_textEdit.setText(entry)
             self.msgUpdate(item.text(7))
 
-            self.dateTimeEdit.setDisplayFormat('yyyy-MM-dd hh:mm:ss')
+            self.dateTimeEdit.setDisplayFormat("yyyy-MM-dd hh:mm:ss")
             tmp = self.dateTimeEdit.dateTimeFromText(item.text(1))
             self.dateTimeEdit.setDateTime(tmp)
-            
-    def highlightToggle(self):
-        
-        currentItem = self.oc_treeWidget.selectedItems()
-        for item in currentItem:
+
+    def highLightToggle(self):
+
+        current_item = self.oc_treeWidget.selectedItems()
+        for item in current_item:
             self.msgUpdate(item.text(7))
 
 
@@ -122,9 +121,9 @@ def main():
 
     window = MainWindow()
     window.show()
-    sys.exit(app.exec())
+    sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     OneFile.DetectFrozen()
     main()
