@@ -45,7 +45,7 @@ def messageFormating(source, color=True):
     source = source.replace("\\", "/")
     source = re.sub("/+", "/", source)
 
-    matching = re.findall("#\d*\s", source)
+    matching = re.findall(r"#\d*\s", source)
     output = source[::]
 
     if color:
@@ -59,8 +59,8 @@ def messageFormating(source, color=True):
 
     output = output.replace("#0", "<br/>#0")
     # output = re.sub('#\d*}', '', output)
-    output = re.sub("(}+(\n)*)+$", "", output)
-    output = re.sub("{/Exception[\s\S]*/Trace/:/", "<br/> Trace :", output)
+    output = re.sub(r"(}+(\n)*)+$", "", output)
+    output = re.sub(r"{/Exception[\s\S]*/Trace/:/", "<br/> Trace :", output)
 
     # There should me more Pythonic way, not reassigning variable over and over.
     # TODO: Improve Formatting section.

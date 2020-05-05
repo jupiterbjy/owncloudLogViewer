@@ -1,15 +1,12 @@
 from PySide2.QtCore import QCoreApplication, QEventLoop
+from itertools import takewhile, repeat
 import re
 
 
-def fileLineCounter(file):
-    global lineCounts
-    
-    for idx, l in enumerate(file):
-        pass
-    
-    lineCounts = idx
-    return idx
+def fileLineCounter(file_name):
+    with open(file_name, 'rb') as f:
+        buf_gen = takewhile(lambda x: x, (f.read(1024 * 1024) for _ in repeat(None)))
+        return sum(buf.count(b'\n') for buf in buf_gen)
     
     
 def numericToAlphabet(total, lineIndex):
