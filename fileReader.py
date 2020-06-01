@@ -1,13 +1,13 @@
 from PySide2.QtCore import QCoreApplication, QEventLoop
 from itertools import takewhile, repeat
 import re
+import json
 
 
 def fileLineCounter(file_name):
     with open(file_name, 'rb') as f:
         buf_gen = takewhile(lambda x: x, (f.read(1024 * 1024) for _ in repeat(None)))
         return sum(buf.count(b'\n') for buf in buf_gen)
-    
     
 def numericToAlphabet(total, lineIndex):
     def digit(num, base=10):
@@ -32,7 +32,59 @@ def openWrapper(loc, mode='rt'):
         return 0
     else:
         return f
-    
+
+
+def lineReturn_Gen(file_name):
+    with open(file_name, 'rt') as file:
+        for line in file:
+            yield line
+
+
+def jsonParser(text):
+    try:
+        json_output = json.loads(text)
+    except json.decoder.JSONDecodeError:
+        raise Warning('Failed converting to JSON. Got this:', text)
+    else:
+        return json_output
+
+
+def jsonLine_Gen(file_name):
+    for line in lineReturn_Gen(file_name):
+        if line == '\n':  # sometimes Owncloud logs has blank line spamming.
+            continue
+
+        yield jsonParser(line)
+
+
+def unified_Generator(file_name):
+    """
+    Json Generator that deals with Compatibility.
+    Converts Owncloud Format to Nextcloud format and yield.
+    """
+    for json_line in jsonLine_Gen(file_name):
+
+        message = json_line['message']
+
+        if isinstance(message, dict):  # nextcloud
+            pass
+        else:  # owncloud. string.
+            result = re.sub(r'(^[^:]*:)([^:]*:)', '', message)
+
+            try:
+                json_output = jsonParser(result)
+            except Warning:
+                pass  # log is simple string, like 'login failed.'
+            else:
+                json_line['message'] = json_output
+
+        yield json_line
+
+
+def lineProcess_new(file_name):
+    for json_l in unified_Generator(file_name):
+        form = [json_l['time'], json_l['level'], json_l['remoteAddr']]
+
 
 def lineProcess(location, limit=-1, blacklist=None):
 

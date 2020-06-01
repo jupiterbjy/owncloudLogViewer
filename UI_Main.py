@@ -25,7 +25,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
 
-        # Setting Coloum width
+        # Setting Column width
         header = self.oc_treeWidget.header()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         header.setStretchLastSection(False)
@@ -51,17 +51,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.item_textEdit.append(str(text))
 
-    def fileButtonClicked(self):
+    def writeToUI(self, text): # abstraction
+        self.writeConsole(text)
+
+    @staticmethod
+    def fileHandler(file_name):
+        try:
+            with open(file_name, 'rt'):
+                pass
+        except IOError as e:
+            return False
+        else:
+            return True
+
+    def fileToTree(self, file_name):
         def items(item_list):
             item_ = QTreeWidgetItem()
 
             for idx, i_ in enumerate(item_list):
                 item_.setText(idx, i_)
 
-            return item_
+            self.statusbar.showMessage(f"File {file_name} loaded")
+
+        for json_line in fileReader.unified_Generator(file_name):
+
+            self.oc_treeWidget.invisibleRootItem().addChild(item)
+        pass
+
+    def fileButtonClicked(self):
 
         f = QFileDialog.getOpenFileName()
-        # self.writeConsole(f[0])
+        if self.fileHandler(f):
+            self.fileToTree(f)
+
+        else:
+            self.writeToUI("No Such file or directory")
+
+        # -----------------------------------
 
         if f[0] != "":
             file_name = self.fileNameExtract(f[0])

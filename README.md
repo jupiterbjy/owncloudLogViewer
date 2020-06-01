@@ -1,5 +1,11 @@
 # Introduction
 
+I don't know why I didn't know about json back then. This program is completely useless if you have decent json viewer.
+
+Now going to change re spamming to json loads.
+
+----
+
 Not smart enough to use regex single-handedly. Therefore this dummy's way exists. Aim to provide simple PyQt UI.
 
 Since my log file only contains few error types, I have trouble identifying possible cases of error messages. Therefore if you - In case happend to be using my spagetti code - find your error messages don't show up nicely, send it to me at <jupiterbjy@gmail.com>.
