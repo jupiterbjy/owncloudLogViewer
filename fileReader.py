@@ -8,20 +8,21 @@ def fileLineCounter(file_name):
     with open(file_name, 'rb') as f:
         buf_gen = takewhile(lambda x: x, (f.read(1024 * 1024) for _ in repeat(None)))
         return sum(buf.count(b'\n') for buf in buf_gen)
-    
-def numericToAlphabet(total, lineIndex):
+
+
+def numericToAlphabet(total, line_index):
     def digit(num, base=10):
         if num == 0:
             return 0
         else:
             return digit(num//base) + 1
     
-    out = '0'*(digit(total) - digit(lineIndex))
+    out = '0'*(digit(total) - digit(line_index))
     
-    if lineIndex == 0:
+    if line_index == 0:
         return out
     else:
-        return out + str(lineIndex)
+        return out + str(line_index)
     
     
 def openWrapper(loc, mode='rt'):
@@ -66,14 +67,15 @@ def unified_Generator(file_name):
 
         message = json_line['message']
 
-        if isinstance(message, dict):  # nextcloud
+        if isinstance(message, dict):  # nextcloud dict
             pass
-        else:  # owncloud. string.
+        else:  # owncloud string
             result = re.sub(r'(^[^:]*:)([^:]*:)', '', message)
 
             try:
                 json_output = jsonParser(result)
             except Warning:
+                json_line['message'] = {'Exception': message}
                 pass  # log is simple string, like 'login failed.'
             else:
                 json_line['message'] = json_output
@@ -82,8 +84,17 @@ def unified_Generator(file_name):
 
 
 def lineProcess_new(file_name):
-    for json_l in unified_Generator(file_name):
-        form = [json_l['time'], json_l['level'], json_l['remoteAddr']]
+    """
+    Formats json to fit in nice 8-column item.
+    """
+    global total
+    total = fileLineCounter(file_name)
+
+    for idx, json_l in enumerate(unified_Generator(file_name)):
+        form = [numericToAlphabet(total, idx), json_l['time'], json_l['level'], json_l['remoteAddr'], json_l['user'],
+                json_l['app'], json_l['method'], json_l['message']['Exception']]
+
+        yield form
 
 
 def lineProcess(location, limit=-1, blacklist=None):
@@ -188,4 +199,4 @@ if __name__ == '__main__':
 
                 print('*' + i + '*')
 
-global lineCounts
+global total

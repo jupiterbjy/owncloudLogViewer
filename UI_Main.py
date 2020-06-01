@@ -40,10 +40,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(sys.exit)
 
         self.statusbar.showMessage("Idle")
-
-    @staticmethod
-    def fileNameExtract(location):
-        return (location.split("/"))[-1]
+        self.fileLineCount = 0
 
     def writeConsole(self, text, clear=False):
         if clear:
@@ -51,7 +48,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.item_textEdit.append(str(text))
 
-    def writeToUI(self, text): # abstraction
+    def writeToUI(self, text):  # abstraction
         self.writeConsole(text)
 
     @staticmethod
@@ -59,51 +56,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             with open(file_name, 'rt'):
                 pass
-        except IOError as e:
+        except IOError:
             return False
         else:
             return True
 
     def fileToTree(self, file_name):
-        def items(item_list):
+        def items(lists):
             item_ = QTreeWidgetItem()
 
-            for idx, i_ in enumerate(item_list):
-                item_.setText(idx, i_)
+            for idx_, i_ in enumerate(lists):
+                try:
+                    item_.setText(idx_, str(i_))
+                except ValueError:
+                    item_.setText(idx_, i_[::20])  # it's too long, so str.
+                # this str-to-everyone might cause overhead.
+                # maybe I need to only apply str to lineProcess's few form items.
 
-            self.statusbar.showMessage(f"File {file_name} loaded")
+            return item_
 
-        for json_line in fileReader.unified_Generator(file_name):
+        self.statusbar.showMessage(f"File {file_name} loaded")
 
+        for form in fileReader.lineProcess_new(file_name):
+            item = items(form)
             self.oc_treeWidget.invisibleRootItem().addChild(item)
-        pass
 
     def fileButtonClicked(self):
-
         f = QFileDialog.getOpenFileName()
-        if self.fileHandler(f):
-            self.fileToTree(f)
-
-        else:
-            self.writeToUI("No Such file or directory")
-
-        # -----------------------------------
-
-        if f[0] != "":
-            file_name = self.fileNameExtract(f[0])
-            try:
-                out = fileReader.lineProcess(f[0])
-
-            except Exception as exp:
-                self.writeConsole(exp)
-                self.writeConsole(ErrorOut(f"Can't open file {file_name}!\n"))
-                self.oc_treeWidget.invisibleRootItem().takeChildren()
-
-            else:
-                self.statusbar.showMessage(f"File {file_name} loaded")
-                for i in out:
-                    item = items(i)
-                    self.oc_treeWidget.invisibleRootItem().addChild(item)
+        if self.fileHandler(f[0]):
+            self.fileToTree(f[0])
 
     def msgUpdate(self, msg):
         if self.raw_checkBox.isChecked():
@@ -124,7 +105,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
             lvl = lvlColorizer(item.text(2))
             # time = item.text(1)
-            entry = item.text(0) + " / " + str(fileReader.lineCounts)
+            entry = item.text(0) + " / " + str(fileReader.total)
 
             self.lvl_textEdit.setText(lvl)
             self.entry_textEdit.setText(entry)
