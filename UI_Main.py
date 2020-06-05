@@ -11,9 +11,8 @@ from PySide2.QtWidgets import (
     QTextEdit,
     QApplication,
 )
-
+from formatTools import lvlColorizer
 from qtUI.oc_logReader import Ui_MainWindow
-from formatTools import *
 import fileTools
 import OneFilePathDetector as OneFile
 
@@ -70,7 +69,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(sys.exit)
 
         self.threadPool = QThreadPool()
-        self.lastFile = ''
+        self.lastFile = ""
 
         self.statusbar.showMessage("Idle")
         self.fileLineCount = 0
@@ -143,7 +142,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.writeConsole(msg, clear=True)
         else:
             self.item_textEdit.setLineWrapMode(QTextEdit.LineWrapMode.NoWrap)
-            self.writeConsole(messageFormating(msg), clear=True)
+            self.writeConsole(msg, clear=True)
 
     def treeItemClicked(self):
         current_item = self.oc_treeWidget.selectedItems()
@@ -157,7 +156,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except Warning:
                 return
 
-            message = converted['message']
+            message = converted["message"]
             while not isinstance(message, dict):
                 message = fileTools.owncloudJsonParser(message)
 

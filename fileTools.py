@@ -51,13 +51,14 @@ def fileLineCounter_blankIgnore(file_name):
     count = 0
     with open(file_name, "rt") as f:
         for line in f:
-            if line == '\n':
+            if line == "\n":
                 continue
             count += 1
         return count
 
 
 # --------------------------------
+
 
 class LazyJsonLoader(Sequence):
     def __init__(self, file_dir):
@@ -70,9 +71,9 @@ class LazyJsonLoader(Sequence):
         source = self.LazyLoader[idx]
         json_src = jsonParser(source)
 
-        if not isinstance(json_src['message'], dict):
-            result = owncloudJsonParser(json_src['message'])
-            json_src['message'] = result
+        if not isinstance(json_src["message"], dict):
+            result = owncloudJsonParser(json_src["message"])
+            json_src["message"] = result
 
         return json_src
 
@@ -100,7 +101,7 @@ def lineReturn_Gen(file_name, ignore_blank=True):
                 if line == "\n":  # sometimes owncloud logs has blank lines.
                     continue
                 yield line
-        else:   # Not so compact, but will have performance benefit.
+        else:  # Not so compact, but will have performance benefit.
             for line in file:
                 yield line
 
@@ -120,14 +121,14 @@ def owncloudJsonParser(message: str) -> dict:
     try:
         json_output = jsonParser(result)
     except Warning:
-        return {'Exception': result}
+        return {"Exception": result}
 
     return json_output
 
 
 def owncloudErrorExtract(message):
     pattern = r"^([^{]+)"
-    if '{' in message:
+    if "{" in message:
         return re.sub(pattern, "", message)
 
     return message
@@ -152,13 +153,13 @@ def unified_Generator(file_name):
             while not isinstance(message, dict):
                 message = owncloudJsonParser(message)
 
-            json_line['message'] = message
+            json_line["message"] = message
 
         yield json_line
 
 
 def timeConvert(time_string):
-    t = time_string.split('+')[0]
+    t = time_string.split("+")[0]
     dt_obj = datetime.datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
     return dt_obj
 
@@ -171,12 +172,12 @@ def lineProcess_new(file_name):
 
     for idx, json_l in enumerate(unified_Generator(file_name)):
         app_name = json_l["app"]
-        time_ = json_l["time"].split('+')[0]
-        level = ' ' + str(json_l["level"])
+        time_ = json_l["time"].split("+")[0]
+        level = " " + str(json_l["level"])
 
         form = [
             numericToAlphabet(total, idx),
-            time_.replace('T', ' '),
+            time_.replace("T", " "),
             level,
             json_l["remoteAddr"],
             json_l["user"],
