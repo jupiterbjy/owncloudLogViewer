@@ -1,5 +1,5 @@
 import unittest
-import fileReader
+import fileTools
 
 def MessageFormatTester(unittest.TestCase):
     def setUp(self):

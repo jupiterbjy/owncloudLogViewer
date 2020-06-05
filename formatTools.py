@@ -28,9 +28,9 @@ def lvlColorizer(source):
             yield i
 
     n = int(source)
-    lvlArray = [(r, 0, 0) for r in slicer(0, 255, 5)]
+    lvl_array = [(r, 0, 0) for r in slicer(0, 255, 5)]
 
-    return QtColorize(source, color=lvlArray[n])
+    return QtColorize(source, color=lvl_array[n])
 
 
 def messageFormating(source, color=True):
