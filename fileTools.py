@@ -199,5 +199,3 @@ if __name__ == "__main__":
             for i in txt:
 
                 print("*" + i + "*")
-
-global oc_flag
