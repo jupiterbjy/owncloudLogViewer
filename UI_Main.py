@@ -167,7 +167,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.statusbar.showMessage(f"Showing row {item.text(0)}")
 
             lvl = lvlColorizer(item.text(2))
-            entry = item.text(0) + " / " + str(fileTools.total)
+            entry = item.text(0) + " / " + str(len(self.currentLineLoader))
 
             self.lvl_textEdit.setText(lvl)
             self.entry_textEdit.setText(entry)

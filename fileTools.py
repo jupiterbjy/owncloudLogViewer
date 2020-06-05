@@ -32,8 +32,7 @@ class LazyLineLoader(Sequence):
     def __len__(self):
         if self.ign_blank:
             return fileLineCounter_blankIgnore(self.f_dir)
-        else:
-            return fileLineCounter(self.f_dir)
+        return fileLineCounter(self.f_dir)
 
     def readLine(self, index):
         if self.ign_blank:
@@ -85,15 +84,13 @@ def numericToAlphabet(total_, line_index):
     def digit(num, base=10):
         if num == 0:
             return 0
-        else:
-            return digit(num // base) + 1
+        return digit(num // base) + 1
 
     out = "0" * (digit(total_) - digit(line_index))
 
     if line_index == 0:
         return out
-    else:
-        return out + str(line_index)
+    return out + str(line_index)
 
 
 def lineReturn_Gen(file_name, ignore_blank=True):
@@ -170,7 +167,6 @@ def lineProcess_new(file_name):
     """
     Formats json to fit in nice 8-column item.
     """
-    global total
     total = fileLineCounter(file_name)
 
     for idx, json_l in enumerate(unified_Generator(file_name)):
@@ -203,4 +199,4 @@ if __name__ == "__main__":
 
                 print("*" + i + "*")
 
-global total, oc_flag
+global oc_flag
